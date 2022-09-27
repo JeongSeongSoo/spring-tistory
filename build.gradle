@@ -16,7 +16,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-	implementation('net.bramp.ffmpeg:ffmpeg:0.7.0')
+	// 2022.09.27[프뚜]: azure lib
+	implementation('com.microsoft.azure:azure-storage:8.6.6')
+	implementation("nio:nio:1.0.4")
 }
 
 tasks.named('test') {

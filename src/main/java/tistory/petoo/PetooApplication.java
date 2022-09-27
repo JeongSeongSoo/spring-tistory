@@ -1,69 +1,55 @@
 package tistory.petoo;
 
-import net.bramp.ffmpeg.FFmpeg;
-import net.bramp.ffmpeg.FFmpegExecutor;
-import net.bramp.ffmpeg.FFprobe;
-import net.bramp.ffmpeg.builder.FFmpegBuilder;
-import org.springframework.boot.SpringApplication;
+import com.microsoft.azure.storage.CloudStorageAccount;
+import com.microsoft.azure.storage.OperationContext;
+import com.microsoft.azure.storage.blob.BlobRequestOptions;
+import com.microsoft.azure.storage.blob.CloudBlobClient;
+import com.microsoft.azure.storage.blob.CloudBlobContainer;
+import com.microsoft.azure.storage.blob.CloudBlockBlob;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @SpringBootApplication
 public class PetooApplication {
 
-	public static void main(String[] args) {
-		ffmpegRun();
-		SpringApplication.run(PetooApplication.class, args);
+	public static void main(String[] args) throws Exception {
+		long beforeTime = System.currentTimeMillis(); //코드 실행 전에 시간 받아오기
+
+		AZURE_BLOB_UPLOAD();
+
+		long afterTime = System.currentTimeMillis(); // 코드 실행 후에 시간 받아오기
+		long secDiffTime = (afterTime - beforeTime)/1000; //두 시간에 차 계산
+		System.out.println("시간차이(m) : "+secDiffTime);
+
+		// SpringApplication.run(PetooApplication.class, args);
 	}
 
-	private static void ffmpegRun() {
-		try {
-			// 2022.08.24[프뚜]: 동영상 변환 시작 시간
-			long beforeTime = System.currentTimeMillis();
+	private static void AZURE_BLOB_UPLOAD() throws Exception {
+		// 2022.09.27[프뚜]: 스토어 연결을 위해 인증
+		String storageConnectionString =
+				"DefaultEndpointsProtocol=https;" +
+						"AccountName=<account-name/>;" +
+						"AccountKey=<account-key/>";
 
-			// 2022.08.24[프뚜]: ffmpeg.exe 경로 지정
-			FFmpeg ffmpeg = new FFmpeg("D:\\ffmpeg\\bin\\ffmpeg");
+		// 2022.09.27[프뚜]: 스토리지 계정 > 데이터 스토리지 > 컨테이너 연결
+		CloudStorageAccount storageAccount = CloudStorageAccount.parse(storageConnectionString);
+		CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
 
-			// 2022.08.24[프뚜]: ffprobe.exe 경로 지정
-			FFprobe ffprobe = new FFprobe("D:\\ffmpeg\\bin\\ffprobe");
+		// 2022.09.27[프뚜]: 컨테이너명
+		CloudBlobContainer container = blobClient.getContainerReference("ssjeong");
+		container.createIfNotExists(new BlobRequestOptions(), new OperationContext());
 
-			// 2022.08.24[프뚜]: 동영상 파일(mp4) 경로
-			String originFilePath = "D:\\ffmpeg\\";
+		// 2022.09.27[프뚜]: 업로드 대상
+		Path path = Paths.get("D:\\Doc\\ssjeong\\test.mp4");
 
-			FFmpegBuilder builder = new FFmpegBuilder()
-				.setInput(originFilePath + "1.mp4") // 2022.08.24[프뚜]: 파일 경로
-                .overrideOutputFiles(true) // 2022.08.24[프뚜]: 파일 덮어씌기
-                .addOutput(originFilePath + "2.mp4") // 2022.08.24[프뚜]: 생성되는 파일
-                .setVideoWidth(640)
-                .setVideoHeight(480)
-                .done();
+		// 2022.09.27[프뚜]: 컨테이너에 저장 > 경로 + 파일명, 타입 지정
+		CloudBlockBlob blob = container.getBlockBlobReference("example/" + path.toFile().getName());
+		blob.getProperties().setContentType("video/mp4");
 
-			FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
-        	executor.createJob(builder).run();
-
-			/* 2022.08.24[프뚜]: m3u8로 변환하
-			FFmpegBuilder builder = new FFmpegBuilder()
-                .overrideOutputFiles(true)
-                .setInput(originFilePath + "1.mp4")
-                .addOutput("D:\\ffmpeg\\test.m3u8")
-                .setVideoWidth(640)
-                .setVideoHeight(480)
-                .addExtraArgs("-profile:v", "baseline")
-                .addExtraArgs("-level", "3.0")
-                .addExtraArgs("-start_number", "0")
-                .addExtraArgs("-hls_time", "10")
-                .addExtraArgs("-hls_list_size", "0")
-                .addExtraArgs("-f", "hls")
-                .done();
-			*/
-
-			// 2022.08.24[프뚜]: 동영상 변환 완료 시간
-			long afterTime = System.currentTimeMillis();
-			long secDiffTime = (afterTime - beforeTime) / 1000;
-
-			System.out.println("파일 변환 시간 => " + secDiffTime);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		// 2022.09.27[프뚜]: blob 업로드 실행
+		blob.uploadFromFile(path.toFile().getAbsolutePath());
 	}
 
 }
