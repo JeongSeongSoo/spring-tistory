@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tistory.petoo.api.mapper.PetooMapper">
+
+	<select id="loadContentsAndItemId" resultType="java.util.HashMap">
+		/* loadContentsAndItemId */
+		SELECT CONTENTS.CONTSID
+			 , ITEM.ITEMID
+			 , 'origin' AS FILE_QUALITY
+			 , SUBSTRING_INDEX(ITEM.STARTPATH, '.', -1) AS FILE_TYPE
+			 , SUBSTRING_INDEX(ITEM.STARTPATH, '/', -1) AS FILE_NAME
+			 , CONCAT('/contents/service/', CONTENTS.CONTSID, '/') FILE_PATH
+		FROM TCMS_CONTENTS CONTENTS
+				 INNER JOIN (
+			SELECT CONTSID, ITEMID, STARTPATH FROM TCMS_ITEM
+			WHERE LOWER(SUBSTRING_INDEX(STARTPATH, '.', -1)) = 'mp4'
+		) ITEM ON CONTENTS.CONTSID = ITEM.CONTSID
+		WHERE CONCAT(CONTENTS.CONTSID, ITEM.ITEMID) NOT IN (
+			SELECT CONCAT(CONTENTS.CONTSID, ITEM.ITEMID)
+			FROM TCMN_CONVERSION
+		)
+	</select>
+
+</mapper>
