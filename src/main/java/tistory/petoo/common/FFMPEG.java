@@ -133,8 +133,8 @@ public class FFMPEG {
     private static CloudBlobContainer AZURE_BLOB_CONNECT() throws Exception {
         // 2022.09.27[프뚜]: 스토어 연결을 위해 인증
         String storageConnectionString = "DefaultEndpointsProtocol=https;" +
-                "AccountName=DefaultEndpointsProtocol=https;AccountName=tip2upload;AccountKey=095kSI3iMpPgkH1zUMu1pmNUZsAzvSkc+U1McsFMeXILHq5rA2AvxbVurq2k2gANrgU28vJxlnP5+ASt3X+JeQ==;EndpointSuffix=core.windows.net;" +
-                "AccountKey=095kSI3iMpPgkH1zUMu1pmNUZsAzvSkc+U1McsFMeXILHq5rA2AvxbVurq2k2gANrgU28vJxlnP5+ASt3X+JeQ==";
+                "AccountName=;" +
+                "AccountKey=";
 
         // 2022.09.27[프뚜]: 스토리지 계정 > 데이터 스토리지 > 컨테이너 연결
         CloudStorageAccount storageAccount = CloudStorageAccount.parse(storageConnectionString);
