@@ -17,7 +17,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	// 2022.10.03[프뚜]: FilenameUtils import
-	implementation 'commons-io:commons-io:2.6'
+	implementation 'commons-io:commons-io:2.11.0'
 }
 
 tasks.named('test') {
