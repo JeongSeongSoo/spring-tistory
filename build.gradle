@@ -15,9 +15,13 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-devtools'
 
-	// 2022.10.03[프뚜]: FilenameUtils import
-	implementation 'commons-io:commons-io:2.11.0'
+	// 2022.10.26[프뚜]: thymeleaf
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+	// 2022.10.26[프뚜]: websocket
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 }
 
 tasks.named('test') {
