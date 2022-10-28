@@ -14,14 +14,16 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-devtools'
 
-	// 2022.10.26[프뚜]: thymeleaf
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	// 2022.10.28[프뚜]: postgreSQL
+	implementation 'org.postgresql:postgresql:42.2.19'
 
-	// 2022.10.26[프뚜]: websocket
-	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	// 2022.10.28[프뚜]: log4jdbc-log4j2
+	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
 }
 
 tasks.named('test') {
