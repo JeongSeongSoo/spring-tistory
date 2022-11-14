@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.3'
+	id 'org.springframework.boot' version '2.7.5'
 	id 'io.spring.dependency-management' version '1.0.13.RELEASE'
 	id 'java'
 }
@@ -14,23 +14,20 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-devtools'
-
-	// 2022.10.28[프뚜]: postgreSQL
-	implementation 'org.postgresql:postgresql:42.5.0'
-
-	// 2022.10.28[프뚜]: log4jdbc-log4j2
-	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1'
-
-	// 2022.10.28[프뚜]: JPA
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
-	// 2022.10.28[프뚜]: lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	// 2022.11.14[프뚜]: Redis Common
+	implementation 'org.springframework.data:spring-data-redis'
+	implementation 'org.apache.commons:commons-pool2'
+
+	// 2022.11.14[프뚜]: Jedis
+	implementation 'redis.clients:jedis'
+
+	// 2022.11.14[프뚜]: Lettuce
+	implementation 'io.lettuce:lettuce-core'
 }
 
 tasks.named('test') {
