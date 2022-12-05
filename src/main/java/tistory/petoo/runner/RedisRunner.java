@@ -19,7 +19,7 @@ public class RedisRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        dataSet();
+        // dataSet();
 
         dataKeys();
 
@@ -39,8 +39,7 @@ public class RedisRunner implements ApplicationRunner {
         Iterator<String> ite = list.iterator();
 
         while (ite.hasNext()) {
-            String next = ite.next();
-            System.out.println(next);
+            System.out.println("keys > " + ite.next());
         }
     }
 
@@ -53,8 +52,7 @@ public class RedisRunner implements ApplicationRunner {
         Cursor<String> cursor = redisTemplate.scan(options);
 
         while (cursor.hasNext()) {
-            String next = cursor.next();
-            System.out.println(next);
+            System.out.println("scan > " + cursor.next());
         }
     }
 
