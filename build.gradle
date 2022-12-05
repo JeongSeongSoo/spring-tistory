@@ -19,15 +19,8 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	// 2022.11.14[프뚜]: Redis Common
-	implementation 'org.springframework.data:spring-data-redis'
-	implementation 'org.apache.commons:commons-pool2'
-
-	// 2022.11.14[프뚜]: Jedis
-	implementation 'redis.clients:jedis'
-
-	// 2022.11.14[프뚜]: Lettuce
-	implementation 'io.lettuce:lettuce-core'
+	// 2022.11.23[프뚜]: logback
+	implementation 'net.logstash.logback:logstash-logback-encoder:7.2'
 }
 
 tasks.named('test') {
