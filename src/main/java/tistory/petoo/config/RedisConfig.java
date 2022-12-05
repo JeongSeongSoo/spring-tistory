@@ -25,9 +25,9 @@ import java.util.Arrays;
 public class RedisConfig {
 
     private String[] hosts = new String[] {
-        "127.0.0.1",
-        "localhost"
+        "127.0.0.1"
     };
+    private int port = 6379;
     private int connectTimeout = 5000;
     private int maxTotal = 50;
     private int minIdle = 10;
@@ -105,7 +105,7 @@ public class RedisConfig {
         // 2022.11.14[프뚜]: hosts가 1개
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
         redisStandaloneConfiguration.setHostName(hosts[0]);
-        redisStandaloneConfiguration.setPort(6379);
+        redisStandaloneConfiguration.setPort(port);
 
         return redisStandaloneConfiguration;
     }
