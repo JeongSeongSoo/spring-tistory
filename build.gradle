@@ -19,15 +19,9 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	// 2022.11.14[프뚜]: Redis Common
-	implementation 'org.springframework.data:spring-data-redis'
-	implementation 'org.apache.commons:commons-pool2'
-
-	// 2022.11.14[프뚜]: Jedis
-	implementation 'redis.clients:jedis'
-
-	// 2022.11.14[프뚜]: Lettuce
-	implementation 'io.lettuce:lettuce-core'
+	// 2022.12.15[프뚜]: JWT
+	implementation("io.jsonwebtoken:jjwt:0.9.1")
+	implementation('javax.xml.bind:jaxb-api:2.4.0-b180830.0359')
 }
 
 tasks.named('test') {

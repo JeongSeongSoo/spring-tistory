@@ -3,27 +3,21 @@ package tistory.petoo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import tistory.petoo.entity.Member;
-import tistory.petoo.repository.MemberRepository;
+import tistory.petoo.service.JwtService;
 
 @SpringBootTest
 class PetooApplicationTests {
 
-	@Autowired
-	private MemberRepository memberRepository;
+    @Autowired
+    private JwtService jwtService;
 
-	@Test
-	void save() {
-		memberRepository.save(Member.builder()
-						.userId("ssjeong")
-						.password("ssjeong")
-						.build());
-	}
+    @Test
+    void create() throws Exception {
+        String token = jwtService.create();
+        System.out.println("[LOG] 토큰이 발생되었습니다. > " + token);
 
-	@Test
-	void select() {
-		Member member = memberRepository.findById(2).get();
-		System.out.println("[프뚜] > " + member);
-	}
+        String body = jwtService.check(token);
+        System.out.println("[LOG] 토큰의 바디 값입니다. > " + body);
+    }
 
 }
