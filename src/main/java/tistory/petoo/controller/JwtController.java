@@ -17,9 +17,4 @@ public class JwtController {
         return jwtService.create();
     }
 
-    @GetMapping("/check")
-    public String create(@RequestParam("token") String token) throws Exception {
-        return jwtService.check(token);
-    }
-
 }
