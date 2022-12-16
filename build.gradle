@@ -19,9 +19,9 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	// 2022.12.15[프뚜]: JWT
-	implementation("io.jsonwebtoken:jjwt:0.9.1")
-	implementation('javax.xml.bind:jaxb-api:2.4.0-b180830.0359')
+	// 2022.12.16[프뚜]: AOP
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+
 }
 
 tasks.named('test') {
