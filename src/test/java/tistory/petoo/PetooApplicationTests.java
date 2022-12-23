@@ -2,14 +2,19 @@ package tistory.petoo;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.SerializationUtils;
+import tistory.petoo.config.TestConfig;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @SpringBootTest
 class PetooApplicationTests {
@@ -28,36 +33,58 @@ class PetooApplicationTests {
     }
 
     @Test
-    void pathCheck() throws Exception {
-        String asterisk = "([^/]+)";
-        String doubleAsterisk = "(.+)";
+    void replaceAll() throws Exception {
+        String value = "replace: *";
+        value = value.replaceAll("[*]", "asterisk");
+        print(value);
 
-        String pattern = "/users/*/man/**/name"
-                .replaceAll("[*][*]", doubleAsterisk)
-                .replaceAll("[*]", asterisk);
-        String path = "/users/?/man/?/.../name";
+        value = "replace: +";
+        value = value.replaceAll("[+]", "plus");
+        print(value);
 
-        boolean result = Pattern.matches(pattern, path);
+        value = "replace: |";
+        value = value.replaceAll("[|]", "문자 연결자");
+        print(value);
+
+        value = "replace: (";
+        value = value.replaceAll("\\(", "괄호");
+        print(value);
+
+        value = "replace: ^";
+        value = value.replaceAll("\\^", "Shift + 6");
+        print(value);
     }
 
     @Test
-    void regex() throws Exception {
-        // 2022.12.23[프뚜]: 숫자 허용 패턴
-        String patternValue = "^[0-9]*$";
-        Pattern pattern = Pattern.compile(patternValue);
-        String value1 = "a13c69d";
-        String value2 = "013679";
+    void stream() throws Exception {
+        List<TestDTO> list = new ArrayList<>();
 
-        // 2022.12.23[프뚜]: 패턴에 적합한지 확인
-        Matcher matcher = pattern.matcher(value1);
-        System.out.println(matcher.matches());
+        for (int i = 1; i <= 100; i++) {
+            TestDTO testDTO = new TestDTO();
+            testDTO.setAge(i);
+            testDTO.setJob("job" + i);
+            testDTO.setHobby("hobby" + i);
+            testDTO.setName("name" + i);
+            list.add(testDTO);
+        }
 
-        matcher = pattern.matcher(value2);
-        System.out.println(matcher.matches());
+        // map, collect, filter, allMatch, anyMatch, flatMap, forEach, limit, max, min, peek, noneMatch, reduce, sorted
+        list.stream()
+                .filter(data -> data.getAge() % 2 == 0)
+                .peek(data -> {
+                    data.setName(data.getName().toUpperCase());
+                    print(data.toString());
+                })
+                .filter(data -> data.getAge() % 2 == 1)
+                .peek(data -> {
+                    data.setJob(data.getJob().toUpperCase());
+                    print(data.toString());
+                })
+                .collect(Collectors.toList());
+    }
 
-        // 2022.12.23[프뚜]: String Class 제공하는 matches
-        value1.matches(patternValue);
-        value2.matches(patternValue);
+    private void print(String param) {
+        System.out.println(param);
     }
 
 }
