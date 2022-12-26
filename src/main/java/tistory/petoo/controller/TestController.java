@@ -1,6 +1,8 @@
 package tistory.petoo.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -10,18 +12,23 @@ import java.util.Map;
 public class TestController {
 
     @GetMapping("/")
-    public String main() throws Exception {
-        System.out.println("[LOG] > main method");
-
-        return "main";
+    public ResponseEntity<?> main() throws Exception {
+        return ResponseEntity.ok().body("main");
     }
 
-    @PostMapping("/check")
-    public Map check(@RequestBody Map param) throws Exception {
-        System.out.println("[LOG] > check method");
-        System.out.println("[LOG] > param check : " + param);
+    @PostMapping("/test")
+    public ResponseEntity<?> test(@RequestBody Map param) throws Exception {
+        return ResponseEntity.ok().body(param);
+    }
 
-        return param;
+    @PostMapping("/exclude1/test")
+    public ResponseEntity<?> exclude1(@RequestBody Map param) throws Exception {
+        return ResponseEntity.ok().body(param);
+    }
+
+    @PostMapping("/exclude2/t/e/s/t/double/test")
+    public ResponseEntity<?> exclude2(@RequestBody Map param) throws Exception {
+        return ResponseEntity.ok().body(param);
     }
 
 }
