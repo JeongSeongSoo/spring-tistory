@@ -1,5 +1,6 @@
 package tistory.petoo.config.filter;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import tistory.petoo.config.filter.wrapper.XSSFilterWrapper;
 
@@ -9,13 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
+@Slf4j
 @Component
 public class XSSFilter implements Filter {
 
     // 2022.12.26[프뚜]: path 제외시킬 URI
     private String[] excludePathPatterns = {
-        "/exclude1/*",
-        "/exclude2/**/double/*"
     };
 
     @Override
@@ -34,8 +34,6 @@ public class XSSFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-
-        System.out.println("[LOG] URI: " + httpServletRequest.getRequestURI());
 
         if (isExcludePath(httpServletRequest)) {
             chain.doFilter(request, response);
